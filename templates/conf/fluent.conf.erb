@@ -11,8 +11,8 @@
 
 <% case target when "elasticsearch"%>
 <match **>
-   type elasticsearch
-   log_level info
+   @type elasticsearch
+   @log_level info
    include_tag_key true
    host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
    port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"

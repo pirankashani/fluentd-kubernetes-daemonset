@@ -23,7 +23,7 @@
 
 <% case target when "papertrail"%>
 <filter bootkube>
-  type record_transformer
+  @type record_transformer
   enable_ruby true
   <record>
     hostname #{ENV['FLUENT_HOSTNAME']}
@@ -34,4 +34,3 @@
   </record>
 </filter>
 <% end %>
-
