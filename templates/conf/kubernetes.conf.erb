@@ -165,7 +165,7 @@
   @type kubernetes_metadata
 </filter>
 
-<filter kubernetes.**>
+<!-- <filter kubernetes.**>
   @type record_transformer
   format /^(?<severity>\w)(?<time>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*[/\/n])([\W]*[\w]*){3}[\W]{3}(?<logdate>[\d]*\-[\d]*\-[\d]*)\w(?<logtime>[\d]*\:[\d]*\:[\d]*\.[\d]*)\w\W*\n/
   time_key time
@@ -180,7 +180,7 @@
     source ${record['source']}
     message ${record['message']}
   </record>
-</filter>
+</filter> -->
 
 <% case target when "papertrail" %>
 <filter kube-apiserver-audit>
