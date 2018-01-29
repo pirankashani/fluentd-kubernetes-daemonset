@@ -34,6 +34,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev libffi-dev" \
     && gem install fluent-plugin-secure-forward \
     && gem install fluent-plugin-record-reformer \
     && gem install fluent-plugin-grok-parser \
+    && gem install fluent-plugin-multi-format-parser \
 <% case target when "elasticsearch"%>
     && gem install fluent-plugin-elasticsearch \
 <% when "logentries"%>
