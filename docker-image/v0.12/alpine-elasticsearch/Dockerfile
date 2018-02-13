@@ -40,6 +40,6 @@ ENV FLUENTD_CONF="fluent.conf"
 # td-agent is provided and QA'ed by treasuredata as rpm/deb/.. package
 # -> td-agent (stable) vs fluentd (edge)
 #ENV LD_PRELOAD="/usr/lib/libjemalloc.so.2"
-#I need to be free 
+
 # Run Fluentd
 CMD ["/fluentd/entrypoint.sh"]
