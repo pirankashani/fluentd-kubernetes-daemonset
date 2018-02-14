@@ -6,11 +6,11 @@
 <match fluent.**>
   @type null
 </match>
-
+#added weave instead of *
 <source>
   @type tail
-  path /var/log/containers/*.log
-  pos_file /var/log/fluentd-containers.log.pos
+  path /var/log/containers/weave*.log
+  pos_file /var/log/fluentd-weave-containers.log.pos
   time_format %Y-%m-%dT%H:%M:%S.%NZ
   tag kubernetes.*
   format json
