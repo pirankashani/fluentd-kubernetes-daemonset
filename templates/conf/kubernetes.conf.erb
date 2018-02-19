@@ -58,6 +58,12 @@
   time_format %Y-%m-%d %H:%M:%S.%N
   format_firstline /^\W*\s*\S*:\W*/
   format1 /^\W*\s*\S*:\W*(?<logtime>\d[^\s]*\s[^\s]*)\s(?<severity>\w)\s[/|]\s(?<source>[^\s]*[\:])[\s]*(?<message>.*)/
+    <% if @severity == "I" %> <% @severity="INFO"%><% end %>
+    <% if @severity == "W" %> <% @severity="WARNINIG"%><% end %>
+    <% if @severity == "E" %> <% @severity="ERROR"%><% end %>
+    <% if @severity == "T" %> <% @severity="TRACE"%><% end %>
+    <% if @severity == "C" %> <% @severity="CRITICAL"%><% end %>
+    <% if @severity == "D" %> <% @severity="DEBUG"%><% end %>
   path /var/log/containers/etcd-*.log
   pos_file /var/log/fluentd-etcd.log.pos
   tag kubernetes.*
@@ -89,6 +95,12 @@
   time_format %m%d %H:%M:%S.%N
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
+    <% if @severity == "I" %> <% @severity="INFO"%><% end %>
+    <% if @severity == "W" %> <% @severity="WARNINIG"%><% end %>
+    <% if @severity == "E" %> <% @severity="ERROR"%><% end %>
+    <% if @severity == "T" %> <% @severity="TRACE"%><% end %>
+    <% if @severity == "C" %> <% @severity="CRITICAL"%><% end %>
+    <% if @severity == "D" %> <% @severity="DEBUG"%><% end %>
   path /var/log/containers/kube-proxy-*.log
   pos_file /var/log/fluentd-kube-proxy.log.pos
   tag kubernetes.*
@@ -111,6 +123,12 @@
   time_format %m%d %H:%M:%S.%N
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
+    <% if @severity == "I" %> <% @severity="INFO"%><% end %>
+    <% if @severity == "W" %> <% @severity="WARNINIG"%><% end %>
+    <% if @severity == "E" %> <% @severity="ERROR"%><% end %>
+    <% if @severity == "T" %> <% @severity="TRACE"%><% end %>
+    <% if @severity == "C" %> <% @severity="CRITICAL"%><% end %>
+    <% if @severity == "D" %> <% @severity="DEBUG"%><% end %>
   path /var/log/containers/kube-apiserver-*.log
   pos_file /var/log/fluentd-kube-apiserver.log.pos
   tag kubernetes.*
@@ -134,6 +152,12 @@
   time_format %m%d %H:%M:%S.%N
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
+    <% if @severity == "I" %> <% @severity="INFO"%><% end %>
+    <% if @severity == "W" %> <% @severity="WARNINIG"%><% end %>
+    <% if @severity == "E" %> <% @severity="ERROR"%><% end %>
+    <% if @severity == "T" %> <% @severity="TRACE"%><% end %>
+    <% if @severity == "C" %> <% @severity="CRITICAL"%><% end %>
+    <% if @severity == "D" %> <% @severity="DEBUG"%><% end %>
   path /var/log/containers/kube-controller-manager-*.log
   pos_file /var/log/fluentd-kube-controller-manager.log.pos
   tag kubernetes.*
@@ -156,6 +180,12 @@
   time_format %m%d %H:%M:%S.%N
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
+    <% if @severity == "I" %> <% @severity="INFO"%><% end %>
+    <% if @severity == "W" %> <% @severity="WARNINIG"%><% end %>
+    <% if @severity == "E" %> <% @severity="ERROR"%><% end %>
+    <% if @severity == "T" %> <% @severity="TRACE"%><% end %>
+    <% if @severity == "C" %> <% @severity="CRITICAL"%><% end %>
+    <% if @severity == "D" %> <% @severity="DEBUG"%><% end %>
   path /var/log/containers/kube-scheduler-*.log
   pos_file /var/log/fluentd-kube-scheduler.log.pos
   tag kubernetes.*

@@ -1,0 +1,2 @@
+&& gem install fluent-plugin-record-reformer \
+&& gem install fluent-plugin-grok-parser \
