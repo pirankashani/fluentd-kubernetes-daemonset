@@ -13,9 +13,9 @@
   multiline_flush_interval 5s
   keep_time_key true
   time_key logtime
-  time_format %Y/%m/%d %H:%M:%S.%NZ
+  time_format %Y-%m-%d %H:%M:%S.%NZ
   format_firstline /^\W*\s*\S*:/
-  format1 /^\W*\s*\S*:[\s]*"(?<severity>\w*)[\s]*:[\s]*(?<time>\d[^\s]*\s[^\s]*)(?<message>.*)/
+  format1 /^\W*\s*\S*:[\s]*"(?<severity>\w*)[\s]*:[\s]*(?<logtime>\d[^\s]*\s[^\s]*)(?<message>.*)/
   path "/var/log/containers/weave*.log"
   pos_file "/var/log/fluentd-weave-containers.log.pos"
   tag "kubernetes.*"
@@ -23,10 +23,10 @@
   <parse>
     time_key logtime
     keep_time_key true
-    time_format %Y/%m/%d %H:%M:%S.%NZ
+    time_format %Y-%m-%d %H:%M:%S.%NZ
     format_firstline /^\W*\s*\S*:/
     @type multiline
-    format1 /^\W*\s*\S*:[\s]*"(?<severity>\w*)[\s]*:[\s]*(?<time>\d[^\s]*\s[^\s]*)(?<message>.*)/
+    format1 /^\W*\s*\S*:[\s]*"(?<severity>\w*)[\s]*:[\s]*(?<logtime>\d[^\s]*\s[^\s]*)(?<message>.*)/
   </parse>
 </source>
 
@@ -100,7 +100,7 @@
     @type kubernetes
     format_firstline /^\w\d{4}/
     format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
-    time_format %m%d %H:%M:%S.%N
+    time_format %Y-%m-%d %H:%M:%S.%N
   </parse>
 </source>
 
@@ -110,7 +110,7 @@
   multiline_flush_interval 5s
   time_key logtime
   keep_time_key true
-  time_format %m%d %H:%M:%S.%N
+  time_format %Y-%m-%d %H:%M:%S.%N
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
   path "/var/log/containers/kube-proxy-*.log"
@@ -119,7 +119,7 @@
   <parse>
     time_key logtime
     keep_time_key true
-    time_format %m%d %H:%M:%S.%N
+    time_format %Y-%m-%d %H:%M:%S.%N
     format_firstline /^\s*\S*\w*\W*\w\d{4}/
     @type multiline
     format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
@@ -130,7 +130,7 @@
   format multiline
   multiline_flush_interval 5s
   time_key logtime
-  time_format %m%d %H:%M:%S.%N
+  time_format %Y-%m-%d %H:%M:%S.%N
   keep_time_key true
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
@@ -139,7 +139,7 @@
   tag "kubernetes.*"
   <parse>
     time_key logtime
-    time_format %m%d %H:%M:%S.%N
+    time_format %Y-%m-%d %H:%M:%S.%N
     keep_time_key true
     format_firstline /^\s*\S*\w*\W*\w\d{4}/
     @type multiline
@@ -152,7 +152,7 @@
   multiline_flush_interval 5s
   time_key logtime
   keep_time_key true
-  time_format %m%d %H:%M:%S.%N
+  time_format %Y-%m-%d %H:%M:%S.%N
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
   path "/var/log/containers/kube-controller-manager-*.log"
@@ -160,7 +160,7 @@
   tag "kubernetes.*"
   <parse>
     time_key logtime
-    time_format %m%d %H:%M:%S.%N
+    time_format %Y-%m-%d %H:%M:%S.%N
     keep_time_key true
     format_firstline /^\s*\S*\w*\W*\w\d{4}/
     @type multiline
@@ -172,7 +172,7 @@
   format multiline
   multiline_flush_interval 5s
   time_key logtime
-  time_format %m%d %H:%M:%S.%N
+  time_format %Y-%m-%d %H:%M:%S.%N
   keep_time_key true
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
@@ -181,7 +181,7 @@
   tag "kubernetes.*"
   <parse>
     time_key logtime
-    time_format %m%d %H:%M:%S.%N
+    time_format %Y-%m-%d %H:%M:%S.%N
     keep_time_key true
     format_firstline /^\s*\S*\w*\W*\w\d{4}/
     @type multiline
@@ -194,12 +194,14 @@
   multiline_flush_interval 5s
   path "/var/log/rescheduler.log"
   pos_file "/var/log/fluentd-rescheduler.log.pos"
+  keep_time_key true
   tag "rescheduler"
   <parse>
     @type kubernetes
+    keep_time_key true
     format_firstline /^\w\d{4}/
     format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
-    time_format %m%d %H:%M:%S.%N
+    time_format %Y-%m-%d %H:%M:%S.%N
   </parse>
 </source>
 <source>
@@ -209,11 +211,13 @@
   path "/var/log/glbc.log"
   pos_file "/var/log/fluentd-glbc.log.pos"
   tag "glbc"
+  keep_time_key true
   <parse>
     @type kubernetes
+    keep_time_key true
     format_firstline /^\w\d{4}/
     format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
-    time_format %m%d %H:%M:%S.%N
+    time_format %Y-%m-%d %H:%M:%S.%N
   </parse>
 </source>
 <source>
@@ -227,7 +231,7 @@
     @type kubernetes
     format_firstline /^\w\d{4}/
     format1 /^(?<severity>\w)(?<time>\d{4} [^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\] (?<message>.*)/
-    time_format %m%d %H:%M:%S.%N
+    time_format %Y-%m-%d %H:%M:%S.%N
   </parse>
 </source>
 
