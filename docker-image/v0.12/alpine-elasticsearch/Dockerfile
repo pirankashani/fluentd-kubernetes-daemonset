@@ -15,8 +15,6 @@ RUN set -ex \
         libffi-dev \
     && echo 'gem: --no-document' >> /etc/gemrc \
     && gem install fluent-plugin-secure-forward \
-    && gem install fluent-plugin-record-reformer \
-    && gem install fluent-plugin-grok-parser \
     && gem install fluent-plugin-multi-format-parser \
     && gem install fluent-plugin-elasticsearch \
     && gem install fluent-plugin-kubernetes_metadata_filter \
