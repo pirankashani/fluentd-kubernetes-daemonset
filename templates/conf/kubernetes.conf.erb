@@ -14,8 +14,8 @@
   keep_time_key true
   time_key logtime
   time_format %Y/%m/%d %H:%M:%S.%NZ
-  format_firstline /^\W*\s*\S*:\W*/
-  format1 /^\W*\s*\S*:\W*(?<logtime>\d[^\s]*\s[^\s]*)\s(?<severity>\w)\s[/|]\s(?<source>[^\s]*[\:])[\s]*(?<message>.*)/
+  format_firstline /^\W*\s*\S*:/
+  format1 /^\W*\s*\S*:[\s]*"(?<severity>\w*)[\s]*:[\s]*(?<time>\d[^\s]*\s[^\s]*)(?<message>.*)/
   path "/var/log/containers/weave*.log"
   pos_file "/var/log/fluentd-weave-containers.log.pos"
   tag "kubernetes.*"
