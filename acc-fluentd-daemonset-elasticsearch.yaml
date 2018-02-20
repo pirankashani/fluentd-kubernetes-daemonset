@@ -48,7 +48,7 @@ roleRef:
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: fluentd1
+  name: fluentd2
   namespace: kube-system
   labels:
     k8s-app: fluentd-logging
