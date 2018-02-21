@@ -13,6 +13,7 @@
   multiline_flush_interval 5s
   keep_time_key true
   time_key logtime
+  inject_key_prefix Network-Weave.
   time_format %Y/%m/%d %H:%M:%S.%NZ
   format_firstline /^\W*\s*\S*:/
   format1 /^\W*\s*\S*:[\s]*"(?<severity>\w*)[\s]*:[\s]*(?<logtime>\d[^\s]*\s[^\s]*)(?<message>.*)/
@@ -23,6 +24,7 @@
   <parse>
     time_key logtime
     keep_time_key true
+    inject_key_prefix Network-Weave.
     time_format %Y/%m/%d %H:%M:%S.%NZ
     format_firstline /^\W*\s*\S*:/
     @type multiline
@@ -74,6 +76,7 @@
   time_key logtime
   time_format %Y-%m-%d %H:%M:%S.%N
   keep_time_key true
+  inject_key_prefix kube-etcd.
   format_firstline /^\W*\s*\S*:\W*/
   format1 /^\W*\s*\S*:\W*(?<logtime>\d[^\s]*\s[^\s]*)\s(?<severity>\w)\s[/|]\s(?<source>[^\s]*[\:])[\s]*(?<message>.*)/
   path "/var/log/containers/etcd-*.log"
@@ -83,6 +86,7 @@
     time_key logtime
     time_format %Y-%m-%d %H:%M:%S.%N
     keep_time_key true
+    inject_key_prefix kube-etcd.
     format_firstline /^\W*\s*\S*:\W*/
     @type multiline
     format1 /^\W*\s*\S*:\W*(?<logtime>\d[^\s]*\s[^\s]*)\s(?<severity>\w)\s[/|]\s(?<source>[^\s]*[\:])[\s]*(?<message>.*)/
@@ -110,6 +114,7 @@
   multiline_flush_interval 5s
   time_key logtime
   keep_time_key true
+  inject_key_prefix kube-proxy.
   time_format %m%d %H:%M:%S.%N
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
@@ -119,6 +124,7 @@
   <parse>
     time_key logtime
     keep_time_key true
+    inject_key_prefix kube-proxy.
     time_format %m%d %H:%M:%S.%N
     format_firstline /^\s*\S*\w*\W*\w\d{4}/
     @type multiline
@@ -132,6 +138,7 @@
   time_key logtime
   time_format %m%d %H:%M:%S.%N
   keep_time_key true
+  inject_key_prefix kube-apiserver.
   format_firstline /^\s*\S*\w*\W*\w\d{4}/
   format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
   path "/var/log/containers/kube-apiserver-*.log"
@@ -141,6 +148,7 @@
     time_key logtime
     time_format %m%d %H:%M:%S.%N
     keep_time_key true
+    inject_key_prefix kube-apiserver.
     format_firstline /^\s*\S*\w*\W*\w\d{4}/
     @type multiline
     format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
@@ -255,6 +263,14 @@
 <filter kubernetes.**>
   @type kubernetes_metadata
 </filter>
+<filter kubetransform.**>
+  @type record_transformer
+  <record>
+    logtime_extra ${massage.time.strftime('%Y-%m-%dT%H:%M:%S%z')}
+    severity_extra ${STATES = {"I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL"};STATES[record.severity]}
+  </record>
+</filter>
+
 
 <% case target when "papertrail" %>
 <filter kube-apiserver-audit>
