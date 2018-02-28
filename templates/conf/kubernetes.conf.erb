@@ -13,8 +13,8 @@
   multiline_flush_interval 5s
   keep_time_key true
   time_key logtime
-  inject_key_prefix Network-Weave.
-  time_format %Y/%m/%d %H:%M:%S.%NZ
+  <!-- inject_key_prefix Network-Weave. -->
+  time_format %Y/%m/%d %H:%M:%S.%6NZ
   format_firstline /^\W*\s*\S*:/
   format1 /^\W*\s*\S*:[\s]*"(?<severity>\w*)[\s]*:[\s]*(?<logtime>\d[^\s]*\s[^\s]*)(?<message>.*)/
   path "/var/log/containers/weave*.log"
@@ -24,8 +24,8 @@
   <parse>
     time_key logtime
     keep_time_key true
-    inject_key_prefix Network-Weave.
-    time_format %Y/%m/%d %H:%M:%S.%NZ
+    <!-- inject_key_prefix Network-Weave. -->
+    time_format %Y/%m/%d %H:%M:%6NZ
     format_firstline /^\W*\s*\S*:/
     @type multiline
     format1 /^\W*\s*\S*:[\s]*"(?<severity>\w*)[\s]*:[\s]*(?<logtime>\d[^\s]*\s[^\s]*)(?<message>.*)/
@@ -263,13 +263,20 @@
 <filter kubernetes.**>
   @type kubernetes_metadata
 </filter>
-<filter kubetransform.**>
+<filter kubernetes.**>
+  @type record_transformer
+  enable_ruby true
+  <record>
+    severity ${case record["severity"] when "I" then "INFO" when " E" then "ERROR" when "W" then "WARNING" when "D" then "DEBUG" when "T" then "TRACE" when "F" then "FATAL" end}
+  </record>
+</filter>
+<!-- <filter kubetransform.**>
   @type record_transformer
   <record>
     logtime_extra ${massage.time.strftime('%Y-%m-%dT%H:%M:%S%z')}
     severity_extra ${STATES = {"I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL"};STATES[record.severity]}
   </record>
-</filter>
+</filter> -->
 
 
 <% case target when "papertrail" %>
