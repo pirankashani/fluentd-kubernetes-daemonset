@@ -263,21 +263,16 @@
 <filter kubernetes.**>
   @type kubernetes_metadata
 </filter>
+#Map severity "I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL"
 <filter kubernetes.**>
   @type record_transformer
-  enable_ruby true
+  enable_ruby
+  keep_keys true
   <record>
-    severity ${case record["severity"] when "I" then "INFO" when " E" then "ERROR" when "W" then "WARNING" when "D" then "DEBUG" when "T" then "TRACE" when "F" then "FATAL" end}
+    logtime_extra ${record["logtime"].strftime('%Y-%m-%dT%H:%M:%S%z')}
+    severityLevel ${case record['severity'] when "I" then "INFO" when "E" then "ERROR" when "W" then "WARNING" when "D" then "DEBUG" when "T" then "TRACE" when "F" then "FATAL" else "NONE" end}
   </record>
 </filter>
-#<filter kubetransform.**>
-#  @type record_transformer
-#  <record>
-#    logtime_extra ${massage.time.strftime('%Y-%m-%dT%H:%M:%S%z')}
-#    severity_extra ${STATES = {"I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL"};STATES[record.severity]}
-#  </record>
-#</filter>
-
 
 <% case target when "papertrail" %>
 <filter kube-apiserver-audit>
