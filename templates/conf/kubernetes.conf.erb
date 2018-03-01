@@ -267,7 +267,6 @@
 <filter kubernetes.**>
   @type record_transformer
   enable_ruby
-  keep_keys true
   <record>
     logtime_extra ${record["logtime"].strftime('%Y-%m-%dT%H:%M:%S%z')}
     severityLevel ${case record['severity'] when "I" then "INFO" when "E" then "ERROR" when "W" then "WARNING" when "D" then "DEBUG" when "T" then "TRACE" when "F" then "FATAL" else "NONE" end}
