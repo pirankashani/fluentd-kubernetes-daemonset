@@ -18,7 +18,7 @@
     time_key logtime
     keep_time_key true
     #<!-- inject_key_prefix Network-Weave. -->
-    time_format %Y/%m/%d %H:%M:%S.%6N
+    time_format %Y/%m/%d %H:%M:%S.%N
     @type multiline
     format_firstline /^\W*\s*\S*:/
     format1 /^\W*\s*\S*:[\s]*"(?<severity>\w*)[\s]*:[\s]*(?<logtime>\d[^\s]*\s[^\s]*)(?<message>.*)/
