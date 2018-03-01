@@ -27,8 +27,6 @@
 
  <source>
    @type tail
-   format /^(?<time>[^ ]* [^ ,]*)[^\[]*\[[^\]]*\]\[(?<severity>[^ \]]*) *\] (?<message>.*)$/
-   time_format %Y-%m-%d %H:%M:%S
    path "/var/log/salt/minion"
    pos_file "/var/log/fluentd-salt.pos"
    tag "salt"
@@ -51,7 +49,6 @@
 
 <source>
   @type tail
-  format /^time="(?<time>[^)]*)" level=(?<severity>[^ ]*) msg="(?<message>[^"]*)"( err="(?<error>[^"]*)")?( statusCode=($<status_code>\d+))?/
   path "/var/log/docker.log"
   pos_file "/var/log/fluentd-docker.log.pos"
   tag "docker"
@@ -72,7 +69,7 @@
     time_key logtime
     time_format %Y-%m-%d %H:%M:%S.%N
     keep_time_key true
-    inject_key_prefix kube-etcd.
+    #<!-- inject_key_prefix kube-etcd. -->
     format_firstline /^\W*\s*\S*:\W*/
     format1 /^\W*\s*\S*:\W*(?<logtime>\d[^\s]*\s[^\s]*)\s(?<severity>\w)\s[/|]\s(?<source>[^\s]*[\:])[\s]*(?<message>.*)/
   </parse>
@@ -101,7 +98,7 @@
   <parse>
     time_key logtime
     keep_time_key true
-    inject_key_prefix kube-proxy.
+    #<!-- inject_key_prefix kube-proxy. -->
     time_format %m%d %H:%M:%S.%N
     format_firstline /^\s*\S*\w*\W*\w\d{4}/
     @type multiline
@@ -119,7 +116,7 @@
     time_key logtime
     time_format %m%d %H:%M:%S.%N
     keep_time_key true
-    inject_key_prefix kube-apiserver.
+    #<!-- inject_key_prefix kube-apiserver. -->
     format_firstline /^\s*\S*\w*\W*\w\d{4}/
     format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
   </parse>
@@ -218,12 +215,12 @@
 <filter kubernetes.**>
   @type kubernetes_metadata
 </filter>
-#Map severity "I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL"
+#<!-- #Map severity "I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL" -->
 <filter kubernetes.**>
   @type record_transformer
   enable_ruby
   <record>
-    logtime_extra ${record["logtime"].strftime('%Y-%m-%dT%H:%M:%S%z')}
+    #<!-- logtime_extra ${record["logtime"].strftime('%Y-%m-%dT%H:%M:%S%z')} -->
     severityLevel ${case record['severity'] when "I" then "INFO" when "E" then "ERROR" when "W" then "WARNING" when "D" then "DEBUG" when "T" then "TRACE" when "F" then "FATAL" else "NONE" end}
   </record>
 </filter>
