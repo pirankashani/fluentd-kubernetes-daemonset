@@ -111,14 +111,15 @@
   path "/var/log/containers/kube-apiserver-*.log"
   pos_file "/var/log/fluentd-kube-apiserver.log.pos"
   tag "kubernetes.*"
+  # tag "Kubernetes.apiserver*"
   <parse>
     @type multiline
     time_key logtime
     time_format %m%d %H:%M:%S.%N
     keep_time_key true
-    #<!-- inject_key_prefix kube-apiserver. -->
+    # inject_key_prefix kube-apiserver.
     format_firstline /^\s*\S*\w*\W*\w\d{4}/
-    format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*)/
+    format1 /^\s*\S*\w*\W*(?<severity>\w)(?<logtime>\d{4}\s[^\s]*)\s+(?<pid>\d+)\s+(?<source>[^ \]]+)\](?<message>.*[/\/n])\s*\W*\w*\W*(?<stream>\w*)\s*\W*\w*\W*(?<messagetime>[^\s]*Z)/
   </parse>
 </source>
 <source>
@@ -215,7 +216,7 @@
 <filter kubernetes.**>
   @type kubernetes_metadata
 </filter>
-#<!-- #Map severity "I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL" -->
+# Map severity "I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL"
 <filter kubernetes.**>
   @type record_transformer
   enable_ruby
@@ -223,6 +224,15 @@
     severit ${case record['severity'] when "I" then "INFO" when "E" then "ERROR" when "W" then "WARNING" when "D" then "DEBUG" when "T" then "TRACE" when "F" then "FATAL" else record['severity'] end}
   </record>
 </filter>
+
+#<filter kubernetes.apiserver*>
+#  @type record_transformer
+#  enable_ruby
+#  <record>
+#    logtimeYear ${d = DateTime.parse(record['messagetime'])  end}
+#  </record>
+#</filter>
+
 
 <% case target when "papertrail" %>
 <filter kube-apiserver-audit>
