@@ -17,7 +17,6 @@
   <parse>
     time_key logtime
     keep_time_key true
-    #<!-- inject_key_prefix Network-Weave. -->
     time_format %Y/%m/%d %H:%M:%S.%N
     @type multiline
     format_firstline /^\W*\s*\S*:/
@@ -69,7 +68,6 @@
     time_key logtime
     time_format %Y-%m-%d %H:%M:%S.%N
     keep_time_key true
-    #<!-- inject_key_prefix kube-etcd. -->
     format_firstline /^\W*\s*\S*:\W*/
     format1 /^\W*\s*\S*:\W*(?<logtime>\d[^\s]*\s[^\s]*)\s(?<severity>\w)\s[/|]\s(?<source>[^\s]*[\:])[\s]*(?<message>.*)/
   </parse>
@@ -225,7 +223,7 @@
   </record>
 </filter>
 
-#<filter kubernetes.apiserver*>
+#<filter kube.*>
 #  @type record_transformer
 #  enable_ruby
 #  <record>
