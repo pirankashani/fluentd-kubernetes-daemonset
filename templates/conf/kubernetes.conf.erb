@@ -213,9 +213,6 @@
   tag kube-apiserver-audit
 </source>
 
-<filter kubernetes.**>
-  @type kubernetes_metadata
-</filter>
 # Map severity "I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL"
 <filter kubernetes.**>
   @type record_transformer
@@ -233,6 +230,9 @@
   </record>
 </filter>
 
+<filter kubernetes.**>
+  @type kubernetes_metadata
+</filter>
 
 <% case target when "papertrail" %>
 <filter kube-apiserver-audit>
