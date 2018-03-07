@@ -63,6 +63,7 @@
   path "/var/log/containers/etcd-*.log"
   pos_file "/var/log/fluentd-etcd.log.pos"
   tag "kubernetes.*"
+  tag "kube.etcd*"
   <parse>
     @type multiline
     time_key logtime
@@ -93,6 +94,7 @@
   path "/var/log/containers/kube-proxy-*.log"
   pos_file "/var/log/fluentd-kube-proxy.log.pos"
   tag "kubernetes.*"
+  tag "kube.proxy*"
   <parse>
     time_key logtime
     keep_time_key true
@@ -108,7 +110,7 @@
   path "/var/log/containers/kube-apiserver-*.log"
   pos_file "/var/log/fluentd-kube-apiserver.log.pos"
   tag "kubernetes.*"
-  tag "Kube.*"
+  tag "Kube.apiserver*"
   <parse>
     @type multiline
     time_key logtime
@@ -124,6 +126,7 @@
   path "/var/log/containers/kube-controller-manager-*.log"
   pos_file "/var/log/fluentd-kube-controller-manager.log.pos"
   tag "kubernetes.*"
+  tag "kube.controller*"
   <parse>
     @type multiline
     time_key logtime
@@ -139,6 +142,7 @@
   path "/var/log/containers/kube-scheduler-*.log"
   pos_file "/var/log/fluentd-kube-scheduler.log.pos"
   tag "kubernetes.*"
+  tag "kube.scheduler*"
   <parse>
     @type multiline
     time_key logtime
@@ -213,7 +217,7 @@
   @type kubernetes_metadata
 </filter>
 # Map severity "I"  => "INFO","E" => "ERROR","W"  => "WARNING","D" => "DEBUG","T"  => "TRACE","F" => "FATAL"
-<filter kubernetes.**>
+<filter kube.**>
   @type record_transformer
   enable_ruby true
   <record>
@@ -221,7 +225,7 @@
   </record>
 </filter>
 
-<filter kube.**>
+<filter kube.apiserver*>
   @type record_transformer
   enable_ruby true
   <record>
