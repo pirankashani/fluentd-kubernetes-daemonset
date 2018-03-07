@@ -226,7 +226,7 @@
   @type record_transformer
   enable_ruby true
   <record>
-    logtimeYear ${(Date.parse(record['messagetime']).strftime("%Y-%m-%d"))+(Time.parse(record['logtime']).strftime("T%H:%M:%S.%N"))}
+    logtime ${(Date.parse(record['messagetime']).strftime("%Y-%m-%d"))+(Time.parse(record['logtime']).strftime("T%H:%M:%S.%N"))}
   </record>
 </filter>
 
