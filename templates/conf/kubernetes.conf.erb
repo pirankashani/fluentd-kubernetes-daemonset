@@ -14,6 +14,8 @@
   pos_file /var/log/fluentd-other-containers.log.pos
   tag "others.*"
   <parse>
+    time_type string
+    keep_time_key true
     @type json
   </parse>
   read_from_head true
