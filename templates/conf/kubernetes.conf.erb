@@ -214,13 +214,14 @@
   path /var/log/containers/*.log
   exclude_path ["/var/log/containers/weave*.log", "/var/log/containers/etcd*.log", "/var/log/containers/kube*.log"]
   pos_file /var/log/fluentd-other-containers.log.pos
-  tag "others.*"
-  <parse>
-    time_type string
-    time_format %iso8601
-    keep_time_key true
-    @type json
-  </parse>
+  tag "kubernetes.*"
+#  <parse>
+#    time_type string
+#    time_format %iso8601
+#    keep_time_key true
+#    @type json
+#  </parse>
+  type kubernetes
   read_from_head true
 </source>
 
